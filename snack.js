@@ -50,7 +50,7 @@ function start() {
 }
 
 // laststep=4;
-
+//新尺寸 一共45行
 function gametime() {
 
     for (var i = 0; i < len; i++) {
@@ -114,7 +114,7 @@ function gametime() {
 
     function refreshscreen() {
         windowstring = ""
-        for (var i = 0; i <= 1930; i++) {
+        for (var i = 0; i < 3779; i++) {
             windowstring += screentext[i];
         }
         mywindow.innerHTML = windowstring;
@@ -134,7 +134,7 @@ function gametime() {
         y = foody;
         screentext[y * 84 + x] = '$';//不再需要y*84？ 位置搞错了 双次纠错
         windowstring = "";
-        for (var i = 0; i <= 1930; i++) {
+        for (var i = 0; i < 3779; i++) {
             windowstring += screentext[i];
         }
         mywindow.innerHTML = windowstring;
