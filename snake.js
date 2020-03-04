@@ -11,7 +11,7 @@ function perstart() {
 }
 
 
-snackstring = "Ilikeyou"
+snackstring = "Buy_now_for_50%_off"
 len = 3;
 headx = 1;
 heady = 1;
