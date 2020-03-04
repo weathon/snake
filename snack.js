@@ -60,30 +60,39 @@ function gametime() {
         myss.innerHTML = len;
         stepquery.push([])
         bodyxy.push();
-        if (stepquery[len - 2][len-2] == 1)
+        if (waytogo == 1)
             bodyxy[len - 1] = bodyxy[len - 2] - 84;
-        else if (stepquery[len - 2][len-2] == 2)
+        else if (waytogo == 2)
             bodyxy[len - 1] = bodyxy[len - 2] + 84;
-        else if (stepquery[len - 2][len-2] == 3)
+        else if (waytogo == 3)
             bodyxy[len - 1] = bodyxy[len - 2] +1;
-        else if (stepquery[len - 2][len-2] == 4)
+        else if (waytogo == 4)
             bodyxy[len - 1] = bodyxy[len - 2] - 1;
-
-
-        for (var j = 0; j < len; j++) {
-            stepquery[len - 1].push(stepquery[len - 2][len-2]);//速度似乎也影响错误？显示时间问题? 0 not len-1?
+        //还是出现了侧边吃掉食物的情况
+        //还是会无限延长（某些情况）
+        //后面的节点是要wanyipai的
+        //突然发yun 12点了
+        //有时候还是可以从上面划过的时候吃掉食物
+        stepquery[len - 1].push(waytogo)//加了这个下面for又不改
+        for (var j = 1; j < len; j++) {
+            // stepquery[len - 1].push();//速度似乎也影响错误？显示时间问题? 0 not len-1? 这里第二个值不是固定的？
+            stepquery[len - 1].push(stepquery[len - 2][j-1]);//速度似乎也影响错误？显示时间问题? 0 not len-1? 这里第二个值不是固定的？
             //转弯时多出一个格子
             //食物还是会失踪？无限延长导致的？
             //冲出边框有问题
             //无限延长  没有bodyxy?
+            //目前左右已经没有问题了，但是刚才bodyxy没有push如何赋值的？赋值不需要push? 还是说取上一的值出现问题？用二维数组可以方便很多
+            //最新插进去的最后取出，还有就是分清两个数组 也许不是这里的问题而是后面的处理？
+            //根本原因：没有清除  直接原因：吃完后马上转向
+            //在上边缘出生也会直接gameover
         }
         creatfood();//missing
     }
-    for (var i = 0; i < len; i++) {
+    else for (var i = 0; i < len; i++) {
         stepquery[i].splice(0, 0, waytogo);//应该是队列而不是栈
     }
 
-    if ((headx <= 0) || (heady <= 0) || headx >= 82 || heady > 42) {
+    if ((headx < 0) || (heady < 0) || headx >= 82 || heady > 42) {
         gameover();
         //http://cly7796.net/wp/javascript/setinterval-and-settimeout-and-clearinterval-and-cleartimeout/
     }
