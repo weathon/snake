@@ -15,8 +15,8 @@ snackstring = "Ilikeyou"
 len = 2;
 headx = 1;
 heady = 1;
-bodyxy=[];
-bodydri=[];//上下左右分别为 1 2 3 4
+bodyxy = [];
+bodydri = [];//上下左右分别为 1 2 3 4
 
 function start() {
     headx = Math.round(Math.random() * 40) + 20;
@@ -30,26 +30,28 @@ function start() {
     bodydri.push(1)
     document.getElementById("btn").remove();
     // document.getElementById("mybody").innerHTML+="<span>Your Score: </span><span id='ss'></span>"
-    myss=document.getElementById("ss");//不可以用innerHTML here  这两行会影响主窗口区域刷新
+    myss = document.getElementById("ss");//不可以用innerHTML here  这两行会影响主窗口区域刷新
     refreshscreen();
     creatfood();
-    var hardness=Number(document.getElementById("hard").value);
-    setInterval(gametime,hardness*1000);
+    var hardness = Number(document.getElementById("hard").value);
+    setInterval(gametime, hardness * 1000);
 }
 
 function gametime() {
     // console.log(0)
-    if((headx<=0) || (heady<=0) || headx>80 || heady>21)
-    {
-        while(1) alert("Game Over");
+    if ((headx <= 0) || (heady <= 0) || headx > 80 || heady > 21) {
+        while (1) alert("Game Over");
     }
-    for(var i=0;i<(bodydri.length);i++)
-    {
-        //从头到尾，防止重复处理
-        bodyxy[i]++;
-        screentext[bodyxy[i]]="*"
-        screentext[bodyxy[i]-1]=" "
-    }
+    // for(var i=0;i<(bodydri.length);i++)
+    // {
+    //     //从头到尾，防止重复处理
+    //     bodyxy[i]++;
+    //     screentext[bodyxy[i]]="*"
+    //     screentext[bodyxy[i]-]=" "
+    // }
+    bodyxy[0]++;
+    screentext[bodyxy[0]] = "*"
+    screentext[bodyxy[0]-len] = " "
     headx++;
     refreshscreen();
 }
@@ -60,20 +62,20 @@ function refreshscreen() {
         windowstring += screentext[i];
     }
     mywindow.innerHTML = windowstring;
-    myss.innerHTML=len;
+    myss.innerHTML = len;
 }
-x=0;
-y=0;
+x = 0;
+y = 0;
 function creatfood() {
     foodx = Math.round(Math.random() * 80);
     foody = Math.round(Math.random() * 21);
-    x,y=foodx,foody;
-    screentext[y*83+x]='$';
+    x, y = foodx, foody;
+    screentext[y * 83 + x] = '$';
     foodx = Math.round(Math.random() * 80);
     foody = Math.round(Math.random() * 21);
-    x,y=foodx,foody;
-    screentext[y*83+x]='$';
-    windowstring=""
+    x, y = foodx, foody;
+    screentext[y * 83 + x] = '$';
+    windowstring = ""
     for (var i = 0; i <= 1930; i++) {
         windowstring += screentext[i];
     }
