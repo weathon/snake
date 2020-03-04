@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snack</title>
 </head>
-<body>
-    <pre id="window"></pre>
+
+<body id=mybody>
+    <!-- https://bbs.csdn.net/topics/370251832 -->
+    <pre id="mywindow"></pre>
     <!-- https://www.computerhope.com/issues/ch001662.htm -->
-    <button onclick=start();>Start!</button>
+    <button onclick=start(); id=btn>Start!</button>
+    <p>Your Score: </p> <span id="ss"></span>
     <script src="snack.js"></script>
     <script>perstart();</script>
 </body>
+
 </html>
