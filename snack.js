@@ -12,30 +12,46 @@ function perstart() {
 
 
 snackstring = "Ilikeyou"
-len = 5;
+len = 2;
 headx = 1;
 heady = 1;
+bodyxy=[];
+bodydri=[];//上下左右分别为 1 2 3 4
 
 function start() {
     headx = Math.round(Math.random() * 40) + 20;
     heady = Math.round(Math.random() * 5) + 10;
     screentext[(heady + 1) * 83 + headx + 1] = '*';
     screentext[(heady + 1) * 83 + headx] = '*';
-    screentext[(heady + 1) * 83 + headx - 1] = '*';
-    screentext[(heady + 1) * 83 + headx - 2] = '*';
-    screentext[(heady + 1) * 83 + headx - 3] = '*';
     // mywindow.innerText=screentext;
-    
+    bodyxy.push((heady + 1) * 83 + headx)
+    bodyxy.push((heady + 1) * 83 + headx + 1)
+    bodydri.push(1)
+    bodydri.push(1)
     document.getElementById("btn").remove();
     // document.getElementById("mybody").innerHTML+="<span>Your Score: </span><span id='ss'></span>"
     myss=document.getElementById("ss");//不可以用innerHTML here  这两行会影响主窗口区域刷新
     refreshscreen();
-    
-
+    creatfood();
+    var hardness=Number(document.getElementById("hard").value);
+    setInterval(gametime,hardness*1000);
 }
 
 function gametime() {
-
+    // console.log(0)
+    if((headx<=0) || (heady<=0) || headx>80 || heady>21)
+    {
+        while(1) alert("Game Over");
+    }
+    for(var i=0;i<(bodydri.length);i++)
+    {
+        //从头到尾，防止重复处理
+        bodyxy[i]++;
+        screentext[bodyxy[i]]="*"
+        screentext[bodyxy[i]-1]=" "
+    }
+    headx++;
+    refreshscreen();
 }
 
 function refreshscreen() {
@@ -46,8 +62,20 @@ function refreshscreen() {
     mywindow.innerHTML = windowstring;
     myss.innerHTML=len;
 }
-
+x=0;
+y=0;
 function creatfood() {
-    var x = Math.round(Math.random() * 80);
-    var y = Math.round(Math.random() * 21);
+    foodx = Math.round(Math.random() * 80);
+    foody = Math.round(Math.random() * 21);
+    x,y=foodx,foody;
+    screentext[y*83+x]='$';
+    foodx = Math.round(Math.random() * 80);
+    foody = Math.round(Math.random() * 21);
+    x,y=foodx,foody;
+    screentext[y*83+x]='$';
+    windowstring=""
+    for (var i = 0; i <= 1930; i++) {
+        windowstring += screentext[i];
+    }
+    mywindow.innerHTML = windowstring;
 }
