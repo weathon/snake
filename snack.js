@@ -30,7 +30,7 @@ function start() {
     }
 
     headx = Math.round(Math.random() * 40) + 20;
-    heady = Math.round(Math.random() * 5) + 10;
+    heady = Math.round(Math.random() * 30);
     screentext[(heady + 1) * 84 + headx] = '*';
     screentext[(heady + 1) * 84 + headx - 2] = '*';
     screentext[(heady + 1) * 84 + headx - 1] = '*';
@@ -48,18 +48,29 @@ function start() {
     var hardness = Number(document.getElementById("hard").value);
     handle = setInterval(gametime, hardness * 1000);
 }
-
+function gameover(){
+    alert("Game Over");
+    clearInterval(handle);
+}
 // laststep=4;
 //新尺寸 一共45行
 function gametime() {
-
+    if(headx==foodx && heady==foody)
+    {
+        len++;
+        stepquery.push([])
+        for (var j = 0; j <= len; j++) {
+            stepquery[len-1].push(stepquery[len-1][len-1]);//速度似乎也影响错误？显示时间问题
+            //转弯时多出一个格子
+            //没有完全碰到食物也会
+        }
+    }
     for (var i = 0; i < len; i++) {
         stepquery[i].splice(0, 0, waytogo);//应该是队列而不是栈
     }
 
-    if ((headx <= 0) || (heady <= 0) || headx >= 82 || heady > 20) {
-        alert("Game Over");
-        clearInterval(handle);
+    if ((headx <= 0) || (heady <= 0) || headx >= 82 || heady > 42) {
+            gameover();
         //http://cly7796.net/wp/javascript/setinterval-and-settimeout-and-clearinterval-and-cleartimeout/
     }
     ifdid = 0;
@@ -124,7 +135,7 @@ function gametime() {
     y = 0;
     function creatfood() {
         foodx = Math.round((Math.random()) * 75);
-        foody = Math.round((Math.random()) * 15);
+        foody = Math.round((Math.random()) * 30);
         if (foodx == 0 || foodx == 1) foodx++;
         if (foody == 0 || foody == 1) foody++;
         // foodx=foodx*80+1;
