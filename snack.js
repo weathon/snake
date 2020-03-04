@@ -48,24 +48,34 @@ function start() {
     var hardness = Number(document.getElementById("hard").value);
     handle = setInterval(gametime, hardness * 1000);
 }
-function gameover(){
+function gameover() {
     alert("Game Over");
     clearInterval(handle);
 }
 // laststep=4;
 //新尺寸 一共45行
 function gametime() {
-    if(headx==foodx && heady==foody)
-    {
+    if (headx == foodx && heady == foody) {
         len++;
+        myss.innerHTML = len;
         stepquery.push([])
-        for (var j = 0; j < len-1; j++) {
-            stepquery[len-1].push(stepquery[len-1][len-1]);//速度似乎也影响错误？显示时间问题
+        bodyxy.push();
+        if (stepquery[len - 2][len-2] == 1)
+            bodyxy[len - 1] = bodyxy[len - 2] - 84;
+        else if (stepquery[len - 2][len-2] == 2)
+            bodyxy[len - 1] = bodyxy[len - 2] + 84;
+        else if (stepquery[len - 2][len-2] == 3)
+            bodyxy[len - 1] = bodyxy[len - 2] +1;
+        else if (stepquery[len - 2][len-2] == 4)
+            bodyxy[len - 1] = bodyxy[len - 2] - 1;
+
+
+        for (var j = 0; j < len; j++) {
+            stepquery[len - 1].push(stepquery[len - 2][len-2]);//速度似乎也影响错误？显示时间问题? 0 not len-1?
             //转弯时多出一个格子
-            //没有完全碰到食物也会
             //食物还是会失踪？无限延长导致的？
             //冲出边框有问题
-            //无限延长
+            //无限延长  没有bodyxy?
         }
         creatfood();//missing
     }
@@ -74,7 +84,7 @@ function gametime() {
     }
 
     if ((headx <= 0) || (heady <= 0) || headx >= 82 || heady > 42) {
-            gameover();
+        gameover();
         //http://cly7796.net/wp/javascript/setinterval-and-settimeout-and-clearinterval-and-cleartimeout/
     }
     ifdid = 0;
@@ -112,7 +122,7 @@ function gametime() {
             }
         }
         else if (way == 3) {//最后会pop到没有，还有一个问题就是pop了两次
-            bodyxy[i] --;
+            bodyxy[i]--;
             screentext[bodyxy[i]] = "*"
             // screentext[bodyxy[i] + 1] = " "//在这里联想到是不是只有最后一个要清除？
             //scratch简单很多啊
@@ -125,57 +135,58 @@ function gametime() {
         }
 
         refreshscreen();
-    }}
-
-    function refreshscreen() {
-        windowstring = ""
-        for (var i = 0; i < 3779; i++) {
-            windowstring += screentext[i];
-        }
-        mywindow.innerHTML = windowstring;
-        myss.innerHTML = len;
     }
-    x = 0;
-    y = 0;
-    function creatfood() {
-        foodx = Math.round((Math.random()) * 75);
-        foody = Math.round((Math.random()) * 30);
-        if (foodx == 0 || foodx == 1) foodx++;
-        if (foody == 0 || foody == 1) foody++;
-        // foodx=foodx*80+1;
-        // foody=foody*15+1;//每次数字都一样
-        // x, y = foodx, foody;
-        x = foodx;
-        y = foody;
-        screentext[(y+1) * 84 + (x)] = '$';//不再需要y*84？ 位置搞错了 双次纠错
-        windowstring = "";
-        for (var i = 0; i < 3779; i++) {
-            windowstring += screentext[i];
-        }
-        mywindow.innerHTML = windowstring;
+}
+
+function refreshscreen() {
+    windowstring = ""
+    for (var i = 0; i < 3779; i++) {
+        windowstring += screentext[i];
     }
+    mywindow.innerHTML = windowstring;
+    myss.innerHTML = len;
+}
+x = 0;
+y = 0;
+function creatfood() {
+    foodx = Math.round((Math.random()) * 75);
+    foody = Math.round((Math.random()) * 30);
+    if (foodx == 0 || foodx == 1) foodx++;
+    if (foody == 0 || foody == 1) foody++;
+    // foodx=foodx*80+1;
+    // foody=foody*15+1;//每次数字都一样
+    // x, y = foodx, foody;
+    x = foodx;
+    y = foody;
+    screentext[(y + 1) * 84 + (x)] = '$';//不再需要y*84？ 位置搞错了 双次纠错
+    windowstring = "";
+    for (var i = 0; i < 3779; i++) {
+        windowstring += screentext[i];
+    }
+    mywindow.innerHTML = windowstring;
+}
 
 
-    function keyevent() {
-        key = event.keyCode;
-        if (key == 37) //left
-        {
-            waytogo = 3;
-        }
-        if (key == 38) //up
-        {
-            waytogo = 1;
-        }
-        if (key == 39) //right
-        {
-            waytogo = 4;
-        }
-        if (key == 40) //down
-        {
-            waytogo = 2;
-        }
+function keyevent() {
+    key = event.keyCode;
+    if (key == 37) //left
+    {
+        waytogo = 3;
     }
-    document.onkeydown = keyevent;
+    if (key == 38) //up
+    {
+        waytogo = 1;
+    }
+    if (key == 39) //right
+    {
+        waytogo = 4;
+    }
+    if (key == 40) //down
+    {
+        waytogo = 2;
+    }
+}
+document.onkeydown = keyevent;
 //还有一个问题就是反应会慢一拍（一个事件循环），插入时直接覆盖？
 //到后面卡顿很严重
 //无缘无故game over，变量没设置好
