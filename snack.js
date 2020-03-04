@@ -59,11 +59,15 @@ function gametime() {
     {
         len++;
         stepquery.push([])
-        for (var j = 0; j <= len; j++) {
+        for (var j = 0; j < len-1; j++) {
             stepquery[len-1].push(stepquery[len-1][len-1]);//速度似乎也影响错误？显示时间问题
             //转弯时多出一个格子
             //没有完全碰到食物也会
+            //食物还是会失踪？无限延长导致的？
+            //冲出边框有问题
+            //无限延长
         }
+        creatfood();//missing
     }
     for (var i = 0; i < len; i++) {
         stepquery[i].splice(0, 0, waytogo);//应该是队列而不是栈
@@ -143,7 +147,7 @@ function gametime() {
         // x, y = foodx, foody;
         x = foodx;
         y = foody;
-        screentext[y * 84 + x] = '$';//不再需要y*84？ 位置搞错了 双次纠错
+        screentext[(y+1) * 84 + (x)] = '$';//不再需要y*84？ 位置搞错了 双次纠错
         windowstring = "";
         for (var i = 0; i < 3779; i++) {
             windowstring += screentext[i];
