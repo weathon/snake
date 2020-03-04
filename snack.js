@@ -17,15 +17,16 @@ headx = 1;
 heady = 1;
 bodyxy = [];
 bodydri = [];//上下左右分别为 1 2 3 4
+stepquery=[[]]
 
 function start() {
     headx = Math.round(Math.random() * 40) + 20;
     heady = Math.round(Math.random() * 5) + 10;
-    screentext[(heady + 1) * 83 + headx + 1] = '*';
-    screentext[(heady + 1) * 83 + headx] = '*';
+    screentext[(heady + 1) * 84 + headx + 2] = '*';
+    screentext[(heady + 1) * 84 + headx + 1] = '*';
     // mywindow.innerText=screentext;
-    bodyxy.push((heady + 1) * 83 + headx)
-    bodyxy.push((heady + 1) * 83 + headx + 1)
+    bodyxy.push((heady + 1) * 84 + headx + 1)
+    bodyxy.push((heady + 1) * 84 + headx + 2)
     bodydri.push(1)
     bodydri.push(1)
     document.getElementById("btn").remove();
@@ -34,13 +35,17 @@ function start() {
     refreshscreen();
     creatfood();
     var hardness = Number(document.getElementById("hard").value);
-    setInterval(gametime, hardness * 1000);
+    handle = setInterval(gametime, hardness * 1000);
 }
+
+
 
 function gametime() {
     // console.log(0)
-    if ((headx <= 0) || (heady <= 0) || headx > 80 || heady > 21) {
-        while (1) alert("Game Over");
+    if ((headx <= 0) || (heady <= 0) || headx >= 81 || heady > 21) {
+        alert("Game Over");
+        clearInterval(handle);
+        //http://cly7796.net/wp/javascript/setinterval-and-settimeout-and-clearinterval-and-cleartimeout/
     }
     // for(var i=0;i<(bodydri.length);i++)
     // {
@@ -51,7 +56,7 @@ function gametime() {
     // }
     bodyxy[0]++;
     screentext[bodyxy[0]] = "*"
-    screentext[bodyxy[0]-len] = " "
+    screentext[bodyxy[0] - len] = " "
     headx++;
     refreshscreen();
 }
@@ -67,15 +72,17 @@ function refreshscreen() {
 x = 0;
 y = 0;
 function creatfood() {
-    foodx = Math.round(Math.random() * 80);
-    foody = Math.round(Math.random() * 21);
-    x, y = foodx, foody;
-    screentext[y * 83 + x] = '$';
-    foodx = Math.round(Math.random() * 80);
-    foody = Math.round(Math.random() * 21);
-    x, y = foodx, foody;
-    screentext[y * 83 + x] = '$';
-    windowstring = ""
+    foodx = Math.round((Math.random()+1)*75);
+    foody = Math.round((Math.random()+1)*15);
+    if(foodx==0 || foodx==1) foodx++;
+    if(foody==0 || foody==1) foody++;
+    // foodx=foodx*80+1;
+    // foody=foody*15+1;//每次数字都一样
+    // x, y = foodx, foody;
+    x=foodx;
+    y=foody;
+    screentext[y + x] = '$';//不再需要y*84
+    windowstring = "";
     for (var i = 0; i <= 1930; i++) {
         windowstring += screentext[i];
     }
